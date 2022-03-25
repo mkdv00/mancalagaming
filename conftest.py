@@ -1,6 +1,12 @@
 import pytest
 from selenium import webdriver
 
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.opera import OperaDriverManager
+
 
 def pytest_addoption(parser):
     # Options for running tests
@@ -25,11 +31,11 @@ def browser(request):
     browser = None
 
     if browser_name == "chrome":
-        browser = webdriver.Chrome()
+        browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     elif browser_name == "firefox":
-        browser = webdriver.Firefox()
+        browser = webdriver.Firefox(service=Service(GeckoDriverManager().install()))
     elif browser_name == "opera":
-        browser = webdriver.Opera()
+        browser = webdriver.Opera(executable_path=OperaDriverManager().install())
     else:
         raise pytest.UsageError("--browser should be 'chrome', 'firefox' or 'opera'")
 

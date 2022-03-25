@@ -1,9 +1,7 @@
 import pytest
 from selenium import webdriver
 
-from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.opera import OperaDriverManager
 
@@ -19,8 +17,8 @@ def pytest_addoption(parser):
 @pytest.fixture(scope='session')
 def url(request):
     # Returns the url from the received host
-    host: str = request.config.getoption("url")
-    new_url: str = f"https://{host}/"
+    host: str = request.config.getoption("host")
+    new_url: str = f"https://{host}"
     return new_url
 
 
@@ -31,9 +29,9 @@ def browser(request):
     browser = None
 
     if browser_name == "chrome":
-        browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
     elif browser_name == "firefox":
-        browser = webdriver.Firefox(service=Service(GeckoDriverManager().install()))
+        browser = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     elif browser_name == "opera":
         browser = webdriver.Opera(executable_path=OperaDriverManager().install())
     else:

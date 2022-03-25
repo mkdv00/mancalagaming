@@ -4,10 +4,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class BasePage:
-    def __init__(self, driver, url):
+
+    def __init__(self, driver, url, route=None):
         # Gets url and driver from tests
         self.driver = driver
         self.url = url
+        self.route = route
 
     def find_element(self, locator, time=10):
         # Finds one element by locator
@@ -26,4 +28,4 @@ class BasePage:
 
     def open_url(self):
         # Open browser with url
-        return self.driver.get(self.url)
+        return self.driver.get(f"{self.url}/{self.route}")
